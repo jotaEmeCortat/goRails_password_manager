@@ -1,0 +1,28 @@
+<%= form_with model: password do |form| %>
+	<% if form.object.errors.any? %>
+		<% form.object.errors.full_messages.each do |message| %>
+			<div>
+				<%= message %>
+			</div>
+		<% end %>
+	<% end %>
+
+	<div class="field">
+		<%= form.label :url %>
+		<%= form.url_field :url %>
+	</div>
+
+	<div class="field">
+		<%= form.label :username %>
+		<%= form.text_field :username %>
+	</div>
+
+	<div class="field">
+		<%= form.label :password %>
+		<%= form.password_field :password, data: {password_field_target: "field", password_generator_target: "field"} %>
+	</div>
+
+	<div class="field">
+		<%= form.submit %>
+	</div>
+<% end %>

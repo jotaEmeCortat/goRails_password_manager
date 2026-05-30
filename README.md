@@ -120,3 +120,20 @@ irb(main):001:0> Password.create! url:"twitter.com", username:"whatever", passwo
 Password Create (0.7ms)  INSERT INTO "passwords" ("url", "username", "password", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["url", "twitter.com"], ["username", "{\"p\":\"ias0eBk0aKU=\",\"h\":{\"iv\":\"QxCz/gH/LYkQTdPa\",\"at\":\"cIerDvLUqKxrBLdznMUISA==\"}}"], ["password", "[FILTERED]"], ["created_at", "2026-05-30 13:47:07.671168"], ["updated_at", "2026-05-30 13:47:07.671168"]]
 #   TRANSACTION (1.9ms)  COMMIT
 ```
+
+## Creating Passwords Through A Join Table
+
+Create simple CRUD actions for the `Password` model. When creating a new
+password, associate it with the current user through the `UserPassword` join
+table.
+
+Files changed in this section:
+
+- `config/routes.rb`
+- `app/controllers/passwords_controller.rb`
+- `app/views/passwords/index.html.erb`
+- `app/views/passwords/_form.html.erb`
+- `app/views/passwords/_password.html.erb`
+- `app/views/passwords/new.html.erb`
+- `app/views/passwords/show.html.erb`
+- `app/models/password.rb`
