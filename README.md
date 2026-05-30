@@ -51,3 +51,72 @@ has_many :passwords, through: :user_passwords
 has_many :user_passwords
 has_many :users, through: :user_passwords
 ```
+
+## Encrypting Passwords In The Database
+
+[Active Record Encryption](https://guides.rubyonrails.org/active_record_encryption.html)
+is a feature in Rails 7 that allows you to encrypt sensitive data before it is
+stored in the database.
+
+```bash
+bin/rails db:encryption:init
+```
+
+After active record encryption is initialized, you can edit the credentials file
+to set the encryption key and salt. The `EDITOR` environment variable is used to
+specify the text editor that will be used to edit the credentials file. In this
+example, we are using Visual Studio Code with the `--wait` flag, which tells the
+editor to wait until the file is closed before returning control to the
+terminal.
+
+```bash
+EDITOR="code --wait" rails credentials:edit --environment=development
+# Adding config/credentials/development.key to store the encryption key: xxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Save this in a password manager your team can access.
+
+# If you lose the key, no one, including you, can access anything encrypted with it.
+
+#       create  config/credentials/development.key
+
+# Ignoring config/credentials/development.key so it won't end up in Git history:
+
+#       append  .gitignore
+```
+
+Add the keys for active record encryption. The `primary_key` is used to encrypt
+the data, the `deterministic_key` is used for deterministic encryption, which
+allows you to query encrypted data, and the `key_derivation_salt` is used to
+derive the encryption keys.
+
+Remember to save and close the credentials file after adding the keys.
+
+```yaml
+active_record_encryption:
+  primary_key: xxxxxxxxxxxxxxxxxxxxxxxxxx
+  deterministic_key: xxxxxxxxxxxxxxxxxxxxxxxxxx
+  key_derivation_salt: xxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+In password model, add `encrypts` to the attributes to enable encryption. Use
+`deterministic: true` for the `username` attribute to allow querying.
+
+```ruby
+class Password < ApplicationRecord
+	# [...]
+
+	encrypts :username, deterministic: true
+	encrypts :password
+end
+```
+
+Now when you create a new password entry, the `username` and `password` will be
+encrypted before being stored in the database.
+
+```ruby
+rails c
+irb(main):001:0> Password.create! url:"twitter.com", username:"whatever", password:"1234"
+#   TRANSACTION (0.2ms)  BEGIN
+Password Create (0.7ms)  INSERT INTO "passwords" ("url", "username", "password", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["url", "twitter.com"], ["username", "{\"p\":\"ias0eBk0aKU=\",\"h\":{\"iv\":\"QxCz/gH/LYkQTdPa\",\"at\":\"cIerDvLUqKxrBLdznMUISA==\"}}"], ["password", "[FILTERED]"], ["created_at", "2026-05-30 13:47:07.671168"], ["updated_at", "2026-05-30 13:47:07.671168"]]
+#   TRANSACTION (1.9ms)  COMMIT
+```
