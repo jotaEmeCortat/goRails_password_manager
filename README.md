@@ -137,3 +137,18 @@ Files changed in this section:
 - `app/views/passwords/new.html.erb`
 - `app/views/passwords/show.html.erb`
 - `app/models/password.rb`
+
+## Editing Passwords
+
+Add the ability to edit and delete password entries. Add `dependent: :destroy`
+to the `has_many :user_passwords` association to ensure that when a password is
+deleted, the associated records in the `user_passwords` join table are also
+deleted.
+
+Files changed in this section:
+
+- `app/controllers/passwords_controller.rb`
+- `app/models/password.rb`
+- `app/models/user.rb`
+- `app/views/passwords/_form.html.erb`
+- `app/views/passwords/edit.html.erb`

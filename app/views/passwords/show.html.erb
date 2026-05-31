@@ -1,3 +1,15 @@
-<%= link_to "Back", passwords_path %>
+<div class="mb-4 flex justify-between items-center">
+	<%= link_to "Back", root_path %>
+	<%= link_to "Edit", edit_password_path(@password) %>
+</div>
 
-<%= @password.url %>
+<h3>Credentials</h3>
+<h6 class="text-xs mb-1">Username / Email</h6>
+<div class="flex items-center gap-1">
+  <pre class="my-0 flex-grow"><code><%= @password.username %></code></pre>
+</div>
+
+<h6 class="text-xs mb-1 mt-4">Password</h6>
+<div class="flex items-center gap-1">
+  <pre class="my-0 flex-grow"><code><%= @password.password %></code></pre>
+</div>
