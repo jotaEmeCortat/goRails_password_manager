@@ -4,12 +4,38 @@
 </div>
 
 <h3>Credentials</h3>
-<h6 class="text-xs mb-1">Username / Email</h6>
-<div class="flex items-center gap-1">
-  <pre class="my-0 flex-grow"><code><%= @password.username %></code></pre>
-</div>
 
-<h6 class="text-xs mb-1 mt-4">Password</h6>
-<div class="flex items-center gap-1">
-  <pre class="my-0 flex-grow"><code><%= @password.password %></code></pre>
+<h6 class="text-xs">Username / Email</h6>
+<pre class="m-0 p-0 w-full bg-transparent">
+	<code class="flex w-full items-center justify-between bg-slate-900 m-0 p-4 text-sm">
+		<span class="truncate">
+			<%= @password.username %>
+		</span>
+		<%= button_tag "Copy",
+			class: "p-2 font-semibold",
+			data: {
+				controller: "clipboard",
+				action: "click->clipboard#copy",
+				clipboard_content_value: @password.username
+			}
+		%>
+	</code>
+</pre>
+
+<h6 class="text-xs mb-1">Password</h6>
+<pre class="m-0 p-0 w-full bg-transparent">
+	<code class="flex w-full items-center justify-between bg-slate-900 m-0 p-4 text-sm">
+		<span class="truncate">
+			<%= @password.password %>
+		</span>
+		<%= button_tag "Copy",
+			class: "p-2 font-semibold",
+			data: {
+				controller: "clipboard",
+				action: "click->clipboard#copy",
+				clipboard_content_value: @password.password
+			}
+		%>
+	</code>
+	</pre>
 </div>

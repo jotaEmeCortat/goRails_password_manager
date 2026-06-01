@@ -152,3 +152,55 @@ Files changed in this section:
 - `app/models/user.rb`
 - `app/views/passwords/_form.html.erb`
 - `app/views/passwords/edit.html.erb`
+
+## Copy Passwords To Clipboard
+
+Add a button to copy the password to the clipboard using StimulusJS. Generate a
+new Stimulus controller called `clipboard`.
+
+```bash
+rails g stimulus clipboard
+```
+
+In the `clipboard_controller.js` file, add a method to copy the password to the
+clipboard.
+
+```javascript
+export default class extends Controller {
+  static values = {
+    content: String,
+  };
+
+  connect() {
+    this.originalText = this.element.textContent;
+  }
+
+  copy() {
+    navigator.clipboard.writeText(this.contentValue).then(
+      () => {
+        this.element.textContent = 'Copied!';
+        setTimeout(() => {
+          this.element.textContent = this.originalText;
+        }, 1000);
+      },
+      () => {
+        alert('Failed to copy to clipboard');
+      },
+    );
+  }
+}
+```
+
+In the password show view, add a button to copy the password to the clipboard
+and connect it to the Stimulus controller.
+
+```erb
+<%= button_tag "Copy",
+	class: "p-2 font-semibold",
+	data: {
+		controller: "clipboard",
+		action: "click->clipboard#copy",
+		clipboard_content_value: @password.username
+	}
+%>
+```
