@@ -3,11 +3,11 @@
 	<%= link_to "Edit", edit_password_path(@password) %>
 </div>
 
-<h3>Credentials</h3>
+<h3 class="my-0 mb-2">Credentials</h3>
 
-<h6 class="text-xs">Username / Email</h6>
+<h6 class="mb-0 text-xs">Username / Email</h6>
 <pre class="m-0 p-0 w-full bg-transparent">
-	<code class="flex w-full items-center justify-between bg-slate-900 m-0 p-4 text-sm">
+	<code class="flex w-full items-center justify-between bg-slate-900 m-0 p-2 text-sm">
 		<span class="truncate">
 			<%= @password.username %>
 		</span>
@@ -22,9 +22,9 @@
 	</code>
 </pre>
 
-<h6 class="text-xs mb-1">Password</h6>
+<h6 class="text-xs">Password</h6>
 <pre class="m-0 p-0 w-full bg-transparent">
-	<code class="flex w-full items-center justify-between bg-slate-900 m-0 p-4 text-sm">
+	<code class="flex w-full items-center justify-between bg-slate-900 m-0 p-2 text-sm">
 		<span class="truncate">
 			<%= @password.password %>
 		</span>
@@ -37,5 +37,23 @@
 			}
 		%>
 	</code>
-	</pre>
+</pre>
+
+<div class="mb-4 mt-8 flex justify-between items-center">
+	<h3 class="my-0 mb-2">Shared With</h3>
+	<%= link_to "Add a user", new_password_share_path(@password) %>
+</div>
+
+<div class="flex flex-col gap-1 divide-y divide-gray-100">
+  <% @password.user_passwords.includes(:user).each do |user_password| %>
+    <div class="flex justify-between items-center py-2">
+      <%= user_password.user.email %>
+			<%= button_to "Remove",
+				password_share_path(@password, user_password),
+				method: :delete,
+				data: { turbo_confirm: "Are you sure?" },
+				class: "text-red-500"
+			%>
+    </div>
+  <% end %>
 </div>

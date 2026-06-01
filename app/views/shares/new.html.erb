@@ -1,0 +1,7 @@
+<%= link_to "Back", password_path(@password) %>
+
+<h1>Share Password</h1>
+<%= render "form",
+  password: @password,
+  user_password: @user_password
+%>

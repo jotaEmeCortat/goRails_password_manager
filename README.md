@@ -204,3 +204,21 @@ and connect it to the Stimulus controller.
 	}
 %>
 ```
+
+## Sharing Passwords Between Users
+
+Add the ability to share passwords between users. In the `SharesController`,
+create a new action to display a form for sharing a password, and a create
+action to handle the form submission.
+
+```bash
+rails g controller Shares new
+```
+
+Files changed in this section:
+
+- `config/routes.rb`
+- `app/controllers/shares_controller.rb`
+- `app/views/shares/_form.html.erb`
+- `app/views/shares/new.html.erb`
+- `app/views/passwords/show.html.erb`
