@@ -13,8 +13,8 @@
 
   <body>
     <main class="prose mx-auto mt-8 px-5">
-			 <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
+			<%= render "shared/flash" %>
+      <%= render "shared/nav" %>
       <%= yield %>
     </main>
   </body>
