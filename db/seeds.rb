@@ -12,8 +12,13 @@ Password.destroy_all
 UserPassword.destroy_all
 
 puts "Seeding database..."
-User.create!(email: "user@example.com",  password: "password")
+user = User.create!(email: "user@example.com",  password: "password")
 User.create!(email: "user2@example.com", password: "password")
-user = User.first
-user.passwords.create!(url: "https://example.com", username: "user@example.com", password: "password")
-user.passwords.create!(url: "https://example-2.com", username: "user@example.com", password: "password")
+User.create!(email: "user3@example.com", password: "password")
+
+
+password_one = Password.create!(url: "https://example.com", username: "user@example.com", password: "password")
+UserPassword.create!(user: user, password: password_one, role: "owner")
+
+password_two = Password.create!(url: "https://example-2.com", username: "user@example.com", password: "password")
+UserPassword.create!(user: user, password: password_two, role: "owner")

@@ -222,3 +222,25 @@ Files changed in this section:
 - `app/views/shares/_form.html.erb`
 - `app/views/shares/new.html.erb`
 - `app/views/passwords/show.html.erb`
+
+## Password Sharing Roles & Permissions
+
+Add a `role` column to the `user_passwords` join table to specify the
+permissions for each user on a shared password. The `role` can be either `owner`
+,`editor` or `viewer`. Owners can edit and delete the password, editors can edit
+but not delete, and viewers can only view the password.
+
+```bash
+rails g migration AddRoleToUserPasswords role
+rails db:migrate
+```
+
+Files changed in this section:
+
+- `app/controllers/passwords_controller.rb`
+- `app/controllers/shares_controller.rb`
+- `app/models/user_password.rb`
+- `app/models/password.rb`
+- `app/views/passwords/show.html.erb`
+- `app/views/shares/_form.html.erb`
+- `db/schema.rb`

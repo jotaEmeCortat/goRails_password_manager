@@ -3,7 +3,6 @@ class SharesController < ApplicationController
   before_action :set_password
 
   def new
-    @users = User.excluding(current_user)
     @user_password = UserPassword.new
     # @share = @password.shares.new
   end
@@ -14,14 +13,13 @@ class SharesController < ApplicationController
     if @user_password.save
       redirect_to @password, notice: "Password shared successfully."
     else
-      @users = User.excluding(current_user)
       render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
     @password.user_passwords.find(params[:id]).destroy
-    redirect_to @password, notice: "Share removed successfully."
+    redirect_to root_path, notice: "Share removed successfully."
   end
 
   private
@@ -31,6 +29,6 @@ class SharesController < ApplicationController
   end
 
   def user_password_params
-    params.require(:user_password).permit(:user_id)
+    params.require(:user_password).permit(:user_id, :role)
   end
 end

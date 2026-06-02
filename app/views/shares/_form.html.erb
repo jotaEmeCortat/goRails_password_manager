@@ -1,7 +1,12 @@
-<%= form_with model: @user_password, url: password_shares_path(@password) do |form| %>
+<%= form_with model: user_password, url: password_shares_path(password) do |form| %>
 	<div class="flex flex-col mb-4">
 		<%= form.label :user_id %>
-    <%= form.collection_select :user_id, @users, :id, :email %>
+    <%= form.collection_select :user_id, password.shareable_users, :id, :email %>
+	</div>
+
+	<div class="flex flex-col mb-4">
+		<%= form.label :role %>
+    <%= form.collection_select :role, UserPassword::ROLES, :to_s, :humanize %>
 	</div>
 
   <%= form.submit "Share", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4" %>
